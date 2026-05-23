@@ -60,3 +60,36 @@ title('Impulse Response');
 
 end
 
+%%syms r
+
+pole1=0.6 ;%% or -0.6
+
+wc = 0.25*pi;
+width = 0.1*pi;
+ws = wc + (width/2);
+wp = wc - (width/2);
+
+%%zeros
+zero1 =exp(j*ws);
+zero2 =exp(-j*ws);
+zeros =poly([zero1 zero2]);
+W=linspace(0,wp,1024);
+Ripples =1;  %%dB
+Counter =0;
+for r = 0 : 0.001 : 1
+    Counter = Counter + 1;
+    pole2 = r*exp(j*wp);
+    pole3 = r*exp(-j*wp);
+    poles = poly([pole1 pole2 pole3]);
+    
+    H =freqz(zeros,poles,W);
+    Mag_dB=20*log10(abs(H));
+    mag(Counter)=r;
+    Storage(Counter)=range(Mag_dB);
+   
+end
+[minR,i]=min(Storage);
+optimal_r=mag(i); 
+fprintf('minimum ripples: %.3f dB\n',minR);
+fprintf('optimal r: %.3f\n',optimal_r);
+
