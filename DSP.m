@@ -93,3 +93,42 @@ optimal_r=mag(i);
 fprintf('minimum ripples: %.3f dB\n',minR);
 fprintf('optimal r: %.3f\n',optimal_r);
 
+
+
+%% Point 6
+wp2 = wp / 2;
+ws2 = (pi + ws) / 2;
+
+pole2 = optimal_r * exp(j * wp);
+pole3 = optimal_r * exp(-j * wp);
+
+pole4 = optimal_r * exp(j * wp2);
+pole5 = optimal_r * exp(-j * wp2);
+poles = poly([pole1 pole2 pole3 pole4 pole5]);
+
+zero3 = exp(j * ws2);
+zero4 = exp(-j * ws2);
+zeros = poly([zero1 zero2 zero3 zero4]);
+
+W = linspace(0,wp,1024);
+H = freqz(zeros,poles,W);
+Mag_dB = 20*log10(abs(H));
+Ripples = range(Mag_dB);
+fprintf("Passband ripples before adjusting magnitude of p1: %.3f dB\n", Ripples);
+
+Counter = 0;
+for r = -1 : 0.001 : 1
+    Counter = Counter + 1;
+    pole1 = r;
+    poles = poly([pole1 pole2 pole3 pole4 pole5]);
+
+    H = freqz(zeros,poles,W);
+    Mag_dB = 20 * log10(abs(H));
+    mag2(Counter) = r;
+    Storage2(Counter) = range(Mag_dB);
+
+end
+[minR,i]=min(Storage2);
+optimal_r=mag2(i); 
+fprintf('minimum ripples: %.3f dB\n',minR);
+fprintf('optimal r: %.3f\n',optimal_r);
