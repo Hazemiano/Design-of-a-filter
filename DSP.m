@@ -73,7 +73,7 @@ wp = wc - (width/2);
 zero1 =exp(j*ws);
 zero2 =exp(-j*ws);
 zeros =poly([zero1 zero2]);
-W=linspace(0,wp,1024);
+W=linspace(-(wp-0.001*pi),wp-0.001*pi,1024);
 Ripples =1;  %%dB
 Counter =0;
 for r = 0 : 0.001 : 1
@@ -92,6 +92,14 @@ end
 optimal_r=mag(i); 
 fprintf('minimum ripples: %.3f dB\n',minR);
 fprintf('optimal r: %.3f\n',optimal_r);
+
+%%Printing
+%num=[zero1 zero2];
+%den=[-0.6 0.888*exp(j*wp) 0.888*exp(-j*wp)]
+%num= poly(num);
+%den=poly(den);
+%system_analysis(num,den,wp)
+
 
 
 
@@ -132,3 +140,10 @@ end
 optimal_r=mag2(i); 
 fprintf('minimum ripples: %.3f dB\n',minR);
 fprintf('optimal r: %.3f\n',optimal_r);
+
+%%Printing
+%num=[zero1 zero2 zero3 zero4];
+%den=[optimal_r 0.888*exp(j*wp) 0.888*exp(-j*wp) 0.888*exp(j * wp2) 0.888*exp(-j * wp2);]
+%num= poly(num);
+%den=poly(den);
+%system_analysis(num,den,wp2)
