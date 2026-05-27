@@ -77,8 +77,7 @@ W=linspace(-(wp),wp,1024);
 Ripples =1;  %%dB
 Counter =0;
 
-for wp=0.15*pi : 0.01*pi :0.25*pi
-    for r = 0 : 0.001 : 1
+for r = 0 : 0.001 : 1
         Counter = Counter + 1;
         pole2 = r*exp(j*wp);
         pole3 = r*exp(-j*wp);
@@ -89,8 +88,7 @@ for wp=0.15*pi : 0.01*pi :0.25*pi
         mag(Counter)=r;
         Storage(Counter)=max(Mag_dB)-min(Mag_dB);
    
-    end
-end    
+end   
 [minR,i]=min(Storage);
 optimal_r=mag(i); 
 fprintf('minimum ripples: %.3f dB\n',minR);
